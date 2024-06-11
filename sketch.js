@@ -41,18 +41,20 @@ function windowResized() {
 
 //dates---------------------------------
 
-function dateToTransDate(){	
-	time.day = time.current.getDate();
-	time.month = time.current.getMonth() + 1 ; // date counts January as 0
-	time.year = time.current.getFullYear();
-	time.julianDate = getJulianDate(time.year, time.month, time.day);
-	time.transDate = (time.julianDate - 2451545) / 36525; 
-
-}		//time measured in Julian centuries (36525 days) from the epoch 2000 January 
-
+function dateToTransDate() {
+  const { current } = time;
+  time.day = current.getDate();
+  time.month = current.getMonth() + 1; // Date counts January as 0
+  time.year = current.getFullYear();
+  time.julianDate = getJulianDate(time.year, time.month, time.day);
+  time.transDate = (time.julianDate - 2451545) / 36525; // Time measured in Julian centuries (36525 days) from the epoch 2000 January
+}
 
 function changeDate(date) {
-	time.current = new Date(Date.parse(date));
+	var selectedDate = new Date(date);
+	var timezoneOffset = selectedDate.getTimezoneOffset();
+	selectedDate.setMinutes(selectedDate.getMinutes() + timezoneOffset);
+	time.current = new Date(selectedDate);
 	console.log (time.current);
 	dateToTransDate();
 }
@@ -121,8 +123,8 @@ function draw() {
 	background(40, 40, 40); 
 
   	let date;
-  	if (time.day < 10) { date =  "0" + time.day + "." + time.month + "." + time.year;} 
-  	else { date = time.day + "." + time.month + "." + time.year; }
+  	if (time.day < 10) { date = time.month + "/" + time.day + "/" + time.year;} 
+  	else { date = time.month + "/" + time.day + "/" + time.year; }
   	document.getElementById('date').innerHTML = date; //show date
 
   	for (let i = 0; i < planet.length; i++) { 
