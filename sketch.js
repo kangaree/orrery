@@ -230,8 +230,12 @@ function Body(_name, _radius, _tex, img, moons, type, mass, lengthOfYear, length
 		//Eccentric anomaly (partly taken from http://www.jgiesen.de/kepler/kepler.html)
 		eccentAnom = EccAnom(eNow, meanAnom);
 
+		// When it's around the new year, put the earth at 12 o'clock position
+		const rotateSoEarthYearNoon = -73;
+		// Rotate clockwise
+		const rotateClockWise = -1;
 		//argument of true anomaly
-		trueAnomalyArg = (Math.sqrt((1 + eNow) / (1 - eNow))) * (Math.tan(toRadians(eccentAnom) / 2));
+		trueAnomalyArg = rotateClockWise * (Math.sqrt((1 + eNow) / (1 - eNow))) * (Math.tan(toRadians(eccentAnom + rotateSoEarthYearNoon) / 2));
 
 		//true anomaly = angular distance of the planet from the perihelion of the planet
 		K = Math.PI / 180.0; //Radian converter variable
